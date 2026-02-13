@@ -19,7 +19,8 @@
 		"remark-plugin",
 		"markdown",
 		"escape",
-		"unified"
+		"unified",
+		"wiki-link"
 	],
 	"license": "MIT",
 	"dependencies": {
