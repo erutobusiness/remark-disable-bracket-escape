@@ -58,4 +58,40 @@ describe("remark-disable-text-escape", () => {
 	it("should handle mixed underscores, brackets, and asterisks", () => {
 		expect(process("[link] and **bold** and foo_bar_baz")).toBe("[link] and **bold** and foo_bar_baz");
 	});
+
+	it("should not escape ampersands", () => {
+		expect(process("A & B")).toBe("A & B");
+	});
+
+	it("should not escape ampersands in text", () => {
+		expect(process("AT&T")).toBe("AT&T");
+	});
+
+	it("should handle mixed ampersands with other special characters", () => {
+		expect(process("[link] & **bold** & foo_bar")).toBe("[link] & **bold** & foo_bar");
+	});
+
+	it("should not escape closing brackets", () => {
+		expect(process("]text[")).toBe("]text[");
+	});
+
+	it("should not escape pipe characters", () => {
+		expect(process("A | B | C")).toBe("A | B | C");
+	});
+
+	it("should not escape tildes", () => {
+		expect(process("~approx~")).toBe("~approx~");
+	});
+
+	it("should not escape exclamation marks", () => {
+		expect(process("!important")).toBe("!important");
+	});
+
+	it("should not escape exclamation before bracket", () => {
+		expect(process("![alt]")).toBe("![alt]");
+	});
+
+	it("should handle all special characters together", () => {
+		expect(process("[a] | b & c ~ d ! e_f *g*")).toBe("[a] | b & c ~ d ! e_f *g*");
+	});
 });
