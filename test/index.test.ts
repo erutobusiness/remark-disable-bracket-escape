@@ -104,4 +104,32 @@ describe("remark-disable-text-escape", () => {
 	it("should handle all special characters together", () => {
 		expect(process("[a](b) | c & d ~ e ! f_g *h*")).toBe("[a](b) | c & d ~ e ! f_g *h*");
 	});
+
+	it("should preserve autolink format with special chars in URL", () => {
+		expect(process("<http://a_b.com>")).toBe("<http://a_b.com>");
+	});
+
+	it("should preserve autolink format without special chars", () => {
+		expect(process("<http://example.com>")).toBe("<http://example.com>");
+	});
+
+	it("should preserve autolink with asterisk in URL", () => {
+		expect(process("<http://ex*mple.com>")).toBe("<http://ex*mple.com>");
+	});
+
+	it("should not escape parentheses in link URLs", () => {
+		expect(process("[text](url(x))")).toBe("[text](<url(x)>)");
+	});
+
+	it("should not escape parentheses in image URLs", () => {
+		expect(process("![alt](image(1).png)")).toBe("![alt](<image(1).png>)");
+	});
+
+	it("should preserve underscores in link text", () => {
+		expect(process("[a_b](http://x.com)")).toBe("[a_b](http://x.com)");
+	});
+
+	it("should preserve link with title", () => {
+		expect(process('[text](url "title")')).toBe('[text](url "title")');
+	});
 });
